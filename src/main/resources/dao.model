@@ -1,0 +1,17 @@
+package org.tomass.twitch.twitchtracker.dao {
+
+    #CRUD(org.tomass.twitch.twitchtracker.model.TwitchStream)
+    #Query(org.tomass.twitch.twitchtracker.model.TwitchStream)
+    #Dao TwitchStreamDao {
+    }
+
+    #CRUD(org.tomass.twitch.twitchtracker.model.TwitchStreamData)
+    #Query(org.tomass.twitch.twitchtracker.model.TwitchStreamData)
+    #Dao TwitchStreamDataDao {
+    }
+
+    #CRUD(org.tomass.twitch.twitchtracker.model.TwitchUser)
+    #Query(org.tomass.twitch.twitchtracker.model.TwitchUser)
+    #Dao TwitchUserDao {
+    }
+}

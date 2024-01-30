@@ -1,0 +1,178 @@
+IDSEL=twitch_id(OPT)=select last_insert_id();
+
+INSERT_TWITCH_STREAM(CRUD,in=TwitchStream,out=TwitchStream,tab=twitch_stream)=
+  insert into %%twitch_stream (%ID, %USER_ID, %STARTED_AT, %MATURE, %THUMBNAIL_URL)
+  {= values (:id, :userId, :startedAt, :mature, :thumbnailUrl) }
+;
+
+GET_TWITCH_STREAM(CRUD,in=TwitchStream,out=TwitchStream,tab=twitch_stream=t,tab=twitch_stream_data=t1)=
+  select %t.ID @id(id), %t.USER_ID @userId, %t.STARTED_AT @startedAt, %t.MATURE @mature, %t.THUMBNAIL_URL @thumbnailUrl
+         {? :twitchStreamDatas(call=toInit) | , %t1.ID @twitchStreamDatas.id(id), %t1.TWITCH_STREAM_ID @twitchStreamDatas.twitchStream.id, %t1.GAME_ID @twitchStreamDatas.gameId, %t1.GAME_NAME @twitchStreamDatas.gameName, %t1.TITLE @twitchStreamDatas.title, %t1.VIEWER_COUNT @twitchStreamDatas.viewerCount, %t1.TS @twitchStreamDatas.ts }
+  from %%twitch_stream t
+  {? :twitchStreamDatas(call=toInit) | left join %%twitch_stream_data t1 on %t.ID = %t1.TWITCH_STREAM_ID }
+  {= where
+    {& %t.ID ::= :id }
+    {& %t.USER_ID ::= :userId }
+    {& %t.STARTED_AT ::= :startedAt }
+    {& %t.MATURE ::= :mature }
+    {& %t.THUMBNAIL_URL ::= :thumbnailUrl }
+  }
+;
+
+UPDATE_TWITCH_STREAM(CRUD,in=TwitchStream,out=TwitchStream,tab=twitch_stream)=
+  update %%twitch_stream
+  {= set
+    { ,%USER_ID = :userId }
+    { ,%STARTED_AT = :startedAt }
+    { ,%MATURE = :mature }
+    { ,%THUMBNAIL_URL = :thumbnailUrl }
+  }
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+DELETE_TWITCH_STREAM(CRUD,in=TwitchStream,out=TwitchStream,tab=twitch_stream)=
+  delete from %%twitch_stream
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+SELECT_TWITCH_STREAM(QRY,in=TwitchStream,out=TwitchStream,tab=twitch_stream=t,tab=twitch_stream_data=t1)=
+  select %t.ID @id(id), %t.USER_ID @userId, %t.STARTED_AT @startedAt, %t.MATURE @mature, %t.THUMBNAIL_URL @thumbnailUrl
+         {? :twitchStreamDatas(call=toInit) | , %t1.ID @twitchStreamDatas.id(id), %t1.TWITCH_STREAM_ID @twitchStreamDatas.twitchStream.id, %t1.GAME_ID @twitchStreamDatas.gameId, %t1.GAME_NAME @twitchStreamDatas.gameName, %t1.TITLE @twitchStreamDatas.title, %t1.VIEWER_COUNT @twitchStreamDatas.viewerCount, %t1.TS @twitchStreamDatas.ts }
+  from %%twitch_stream t
+  {? :twitchStreamDatas(call=toInit) | left join %%twitch_stream_data t1 on %t.ID = %t1.TWITCH_STREAM_ID }
+  {= where
+    {& %t.ID ::= :id }
+    {& %t.USER_ID ::= :userId }
+    {& %t.STARTED_AT ::= :startedAt }
+    {& %t.MATURE ::= :mature }
+    {& UPPER(%t.THUMBNAIL_URL) like :+thumbnailUrl }
+  }
+  {#ID order by %t.ID }
+;
+
+INSERT_TWITCH_STREAM_DATA(CRUD,in=TwitchStreamData,out=TwitchStreamData,tab=twitch_stream_data)=
+  insert into %%twitch_stream_data (%ID, %TWITCH_STREAM_ID, %GAME_ID, %GAME_NAME, %TITLE, %VIEWER_COUNT, %TS)
+  {= values (:id(idgen=twitch_id,id=ID), :twitchStream.id, :gameId, :gameName, :title, :viewerCount, :ts) }
+;
+
+GET_TWITCH_STREAM_DATA(CRUD,in=TwitchStreamData,out=TwitchStreamData,tab=twitch_stream_data=t,tab=twitch_stream=t1)=
+  select %t.ID @id(id), %t.TWITCH_STREAM_ID @twitchStream.id(id), %t.GAME_ID @gameId, %t.GAME_NAME @gameName, %t.TITLE @title, %t.VIEWER_COUNT @viewerCount, %t.TS @ts
+         {? :twitchStream(call=toInit) | , %t1.USER_ID @twitchStream.userId, %t1.STARTED_AT @twitchStream.startedAt, %t1.MATURE @twitchStream.mature, %t1.THUMBNAIL_URL @twitchStream.thumbnailUrl }
+  from %%twitch_stream_data t
+  {? :twitchStream(call=toInit) | left join %%twitch_stream t1 on %t.TWITCH_STREAM_ID = %t1.ID }
+  {= where
+    {& %t.ID ::= :id }
+    {& %t.TWITCH_STREAM_ID ::= :twitchStream.id }
+    {& %t.GAME_ID ::= :gameId }
+    {& %t.GAME_NAME ::= :gameName }
+    {& %t.TITLE ::= :title }
+    {& %t.VIEWER_COUNT ::= :viewerCount }
+    {& %t.TS ::= :ts }
+  }
+;
+
+UPDATE_TWITCH_STREAM_DATA(CRUD,in=TwitchStreamData,out=TwitchStreamData,tab=twitch_stream_data)=
+  update %%twitch_stream_data
+  {= set
+    { ,%TWITCH_STREAM_ID = :twitchStream.id(call=isDef) }
+    { ,%GAME_ID = :gameId(call=isDef) }
+    { ,%GAME_NAME = :gameName(call=isDef) }
+    { ,%TITLE = :title(call=isDef) }
+    { ,%VIEWER_COUNT = :viewerCount(call=isDef) }
+    { ,%TS = :ts(call=isDef) }
+  }
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+DELETE_TWITCH_STREAM_DATA(CRUD,in=TwitchStreamData,out=TwitchStreamData,tab=twitch_stream_data)=
+  delete from %%twitch_stream_data
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+SELECT_TWITCH_STREAM_DATA(QRY,in=TwitchStreamData,out=TwitchStreamData,tab=twitch_stream_data=t,tab=twitch_stream=t1)=
+  select %t.ID @id(id), %t.TWITCH_STREAM_ID @twitchStream.id(id), %t.GAME_ID @gameId, %t.GAME_NAME @gameName, %t.TITLE @title, %t.VIEWER_COUNT @viewerCount, %t.TS @ts
+         {? :twitchStream(call=toInit) | , %t1.USER_ID @twitchStream.userId, %t1.STARTED_AT @twitchStream.startedAt, %t1.MATURE @twitchStream.mature, %t1.THUMBNAIL_URL @twitchStream.thumbnailUrl }
+  from %%twitch_stream_data t
+  {? :twitchStream(call=toInit) | left join %%twitch_stream t1 on %t.TWITCH_STREAM_ID = %t1.ID }
+  {= where
+    {& %t.ID ::= :id }
+    {& %t.TWITCH_STREAM_ID ::= :twitchStream.id }
+    {& %t.GAME_ID ::= :gameId }
+    {& UPPER(%t.GAME_NAME) like :+gameName }
+    {& UPPER(%t.TITLE) like :+title }
+    {& %t.VIEWER_COUNT ::= :viewerCount }
+    {& %t.TS ::= :ts }
+  }
+  {#ID order by %t.ID }
+  {#TWITCH_STREAM order by %t.TWITCH_STREAM_ID }
+;
+
+INSERT_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
+  insert into %%twitch_user (%ID, %LOGIN, %DISPLAY_NAME, %TYPE, %BROADCASTER_TYPE, %DESCRIPTION, %PROFILE_IMAGE_URL, %OFFLINE_IMAGE_URL, %CREATED_AT)
+  {= values (:id, :login, :displayName, :type, :broadcasterType, :description, :profileImageUrl, :offlineImageUrl, :createdAt) }
+;
+
+GET_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
+  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt
+  from %%twitch_user
+  {= where
+    {& %ID ::= :id }
+    {& %LOGIN ::= :login }
+    {& %DISPLAY_NAME ::= :displayName }
+    {& %TYPE ::= :type }
+    {& %BROADCASTER_TYPE ::= :broadcasterType }
+    {& %DESCRIPTION ::= :description }
+    {& %PROFILE_IMAGE_URL ::= :profileImageUrl }
+    {& %OFFLINE_IMAGE_URL ::= :offlineImageUrl }
+    {& %CREATED_AT ::= :createdAt }
+  }
+;
+
+UPDATE_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
+  update %%twitch_user
+  {= set
+    { ,%LOGIN = :login(call=isDef) }
+    { ,%DISPLAY_NAME = :displayName(call=isDef) }
+    { ,%TYPE = :type(call=isDef) }
+    { ,%BROADCASTER_TYPE = :broadcasterType(call=isDef) }
+    { ,%DESCRIPTION = :description(call=isDef) }
+    { ,%PROFILE_IMAGE_URL = :profileImageUrl(call=isDef) }
+    { ,%OFFLINE_IMAGE_URL = :offlineImageUrl(call=isDef) }
+    { ,%CREATED_AT = :createdAt(call=isDef) }
+  }
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+DELETE_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
+  delete from %%twitch_user
+  {= where
+    {& %ID = :id(!empty) }
+  }
+;
+
+SELECT_TWITCH_USER(QRY,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
+  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt
+  from %%twitch_user
+  {= where
+    {& %ID ::= :id }
+    {& UPPER(%LOGIN) like :+login }
+    {& UPPER(%DISPLAY_NAME) like :+displayName }
+    {& UPPER(%TYPE) like :+type }
+    {& UPPER(%BROADCASTER_TYPE) like :+broadcasterType }
+    {& UPPER(%DESCRIPTION) like :+description }
+    {& UPPER(%PROFILE_IMAGE_URL) like :+profileImageUrl }
+    {& UPPER(%OFFLINE_IMAGE_URL) like :+offlineImageUrl }
+    {& %CREATED_AT ::= :createdAt }
+  }
+  {#ID order by %ID }
+;
