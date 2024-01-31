@@ -116,7 +116,18 @@
 						};
 					});
 
-					console.log('aaaaaaaaa:', chartData);
+					console.log('bbbbbbbbbbbbbbbbbbbbbbb:', chartData1);
+
+					// Calculate the average value and maximum value
+					var sum = chartData.reduce(function (accumulator, dataPoint) {
+						return accumulator + dataPoint.y;
+					}, 0);
+					var average = Math.floor(sum / chartData.length);
+					var maximum = Math.max.apply(null, chartData.map(function (dataPoint) {
+						return dataPoint.y;
+					}));
+
+					Highcharts.seriesTypes.line.prototype.getPointSpline = Highcharts.seriesTypes.spline.prototype.getPointSpline;
 
 					// Create Highcharts chart
 					Highcharts.chart('chartContainer', {
@@ -136,13 +147,19 @@
 						},
 						yAxis: {
 							title: {
-								text: 'Count'
+								text: 'QQQQ-Axis'
+							},
+							tickPositioner: function () {
+								return [0, average, maximum];
 							}
 						},
 						series: [{
 							name: 'Count',
 							data: chartData,
-							type: 'area'
+							type: 'area',
+							marker: {
+								enabled: false
+							}
 						}]
 					});
 				})

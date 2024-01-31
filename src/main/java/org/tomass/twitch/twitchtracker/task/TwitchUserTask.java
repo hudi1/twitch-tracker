@@ -25,7 +25,7 @@ public class TwitchUserTask {
     @Autowired
     private TwitchUserService twitchUserService;
 
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 5/10 * * * *")
     public void trackUsers() {
         logger.debug(">> trackUsers");
         StreamList resultList = twitchClient.getHelix()
