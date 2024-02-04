@@ -1,0 +1,36 @@
+resolve-pojo-on;
+database-is-online;
+validate-resources - "statements.meta" entity.model dao.model;
+database-jdbc-driver   com.mysql.jdbc.Driver;
+database-has-url   "jdbc:mysql://localhost:3306/twitch?serverTimezone=UTC";
+database-login-username   root;
+database-login-password   root;
+database-active-schema twitch;
+
+pojogen-generate-wrappers;
+pojogen-generate-methods toString equals hashCode isDef toInit;
+pojogen-implements-interfaces java.io.Serializable;
+pojogen-generate-operators;
+pojogen-generate-wrappers;
+
+pojogen-make-it-final;
+pojogen-generate-operators;
+
+pojogen-types-sqltypes TIMESTAMP(19)->java.time.LocalDateTime DATE(10)->java.time.LocalDate;
+
+pojogen-implements-interfaces java.io.Serializable;
+pojogen-generate-methods equals toString toInit isDef;
+
+pojogen-package org.tomass.twitch.model;
+daogen-package org.tomass.twitch.dao;
+
+is-table chat_log chat_log;
+is-table stream stream;
+is-table stream_data stream_data;
+is-table twitch_user twitch_user;
+
+is-pojo ChatLog org.tomass.twitch.model.ChatLog;
+is-pojo Stream org.tomass.twitch.model.Stream;
+is-pojo StreamData org.tomass.twitch.model.StreamData;
+is-pojo TwitchUser org.tomass.twitch.model.TwitchUser;
+

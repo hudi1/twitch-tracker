@@ -1,0 +1,110 @@
+package org.tomass.twitch.model {
+
+
+    #Operators
+    #Serializable(1)
+    #Equals(eventId)
+    #HashCode(eventId)
+    #ToString(eventId,channel,user,channelId,userId,message,streamId,ts,fireAt,color,subsMonths,subsTier)
+    final #Pojo ChatLog {
+        #PrimaryKey
+        #Index
+        #Attr String eventId
+        #Required
+        #Attr String channel
+        #Required
+        #Attr String user
+        #Required
+        #Index
+        #Attr Long channelId
+        #Required
+        #Index
+        #Attr Long userId
+        #Required
+        #Attr String message
+        #IsDef
+        #Index
+        #Attr Long streamId
+        #Required
+        #Attr java.time.LocalDateTime ts
+        #Required
+        #Attr java.time.LocalDateTime fireAt
+        #IsDef
+        #Attr String color
+        #IsDef
+        #Attr Integer subsMonths
+        #IsDef
+        #Attr Integer subsTier
+    }
+
+    #Operators
+    #Serializable(1)
+    #Equals(id)
+    #HashCode(id)
+    #ToString(id,userId,startedAt,mature,thumbnailUrl)
+    final #Pojo Stream {
+        #PrimaryKey
+        #Index
+        #Attr Long id
+        #Required
+        #Attr Long userId
+        #Required
+        #Attr java.time.LocalDateTime startedAt
+        #Required
+        #Attr Boolean mature
+        #Required
+        #Attr String thumbnailUrl
+        #ToInit
+        #Attr java.util.List <StreamData> streamDatas
+    }
+
+    #Operators
+    #Serializable(1)
+    #ToString(gameId,gameName,title,viewerCount,ts)
+    final #Pojo StreamData {
+        #ToInit
+        #Required
+        #Index
+        #IsPojo
+        #Attr Stream stream
+        #IsDef
+        #Attr Integer gameId
+        #IsDef
+        #Attr String gameName
+        #Required
+        #Attr String title
+        #Required
+        #Attr Integer viewerCount
+        #Required
+        #Attr java.time.LocalDateTime ts
+    }
+
+    #Operators
+    #Serializable(1)
+    #Equals(id)
+    #HashCode(id)
+    #ToString(id,login,displayName,type,broadcasterType,description,profileImageUrl,offlineImageUrl,createdAt,ts)
+    final #Pojo TwitchUser {
+        #PrimaryKey
+        #Index
+        #Attr Long id
+        #Required
+        #Attr String login
+        #Required
+        #Attr String displayName
+        #IsDef
+        #Attr String type
+        #IsDef
+        #Attr String broadcasterType
+        #IsDef
+        #Attr String description
+        #IsDef
+        #Attr String profileImageUrl
+        #IsDef
+        #Attr String offlineImageUrl
+        #Required
+        #Attr java.time.LocalDateTime createdAt
+        #Required
+        #Attr java.time.LocalDateTime ts
+    }
+}

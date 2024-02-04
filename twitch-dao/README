@@ -1,0 +1,4 @@
+// generovani kodu pod java16
+mvn exec:exec -P db2mo
+mvn exec:exec -P db2me
+mvn exec:exec -P mo2ja

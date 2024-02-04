@@ -1,0 +1,22 @@
+package org.tomass.twitch.dao {
+
+    #CRUD(org.tomass.twitch.model.ChatLog)
+    #Query(org.tomass.twitch.model.ChatLog)
+    #Dao ChatLogDao {
+    }
+
+    #CRUD(org.tomass.twitch.model.Stream)
+    #Query(org.tomass.twitch.model.Stream)
+    #Dao StreamDao {
+    }
+
+    #CRUD(org.tomass.twitch.model.StreamData)
+    #Query(org.tomass.twitch.model.StreamData)
+    #Dao StreamDataDao {
+    }
+
+    #CRUD(org.tomass.twitch.model.TwitchUser)
+    #Query(org.tomass.twitch.model.TwitchUser)
+    #Dao TwitchUserDao {
+    }
+}

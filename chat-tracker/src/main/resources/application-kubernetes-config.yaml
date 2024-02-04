@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: kubernetes-config
+    import: 'kubernetes:'
+  cloud:
+    kubernetes:
+      config:
+        sources:
+          - name: "@appname@"
+          - name: "@appname@-db"
+      reload:
+        enabled: true
