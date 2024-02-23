@@ -14,8 +14,6 @@ import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.helix.domain.StreamList;
 import com.github.twitch4j.helix.domain.UserList;
 
-import jakarta.annotation.PostConstruct;
-
 @Component
 public class TwitchUserTask {
 
@@ -27,7 +25,6 @@ public class TwitchUserTask {
     private TwitchUserService twitchUserService;
 
     @Scheduled(cron = "0 5/10 * * * *")
-    @PostConstruct
     public void trackUsers() {
         logger.debug(">> trackUsers");
         String kurzor = null;

@@ -1,0 +1,152 @@
+body {
+	padding: 0px;
+	font-family: sans-serif;
+	font-size: 15px;
+	color: #000000;
+	background: #f5f5f5;
+}
+
+.main {
+	max-width: 1600px;
+	margin: 20px auto;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);	
+	position: relative;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.containerData {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding-bottom: 20px;
+}
+
+.footer {
+	padding: 20px;
+	background: #424242;
+	color: #cccccc;
+}
+
+.footer a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+
+
+h2 a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+h2 {
+	background: #666666;
+	color: #ffffff;
+	padding: 20px 0px 20px 20px;
+	margin: 0px;
+	font-size: 20px;
+	border-top: solid #ffffff 1px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 20px 0px 0px 0px;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+input[type=text],input[type=password], select {
+  width: 100%;
+  padding: 7px 16px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+label {
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.feedbackPanel {
+	list-style-type: none;
+	padding: 10px;
+	margin: 0px 0px 20px 0px;
+	background: #ffffee;
+	border: solid #ffd867 1px;
+	-border-radius: 5px;
+	-moz-border-radius: 5px;
+	font-size: 13px;
+}
+
+.feedbackPanelINFO {
+	color: #1e90ff;
+}
+
+.feedbackPanelERROR {
+	color: #ff0000;
+}
+
+.streamer-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.streamer {
+    margin: 10px;
+    text-align: center;
+}
+
+.streamer img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.streamer p {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}

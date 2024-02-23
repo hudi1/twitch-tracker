@@ -15,6 +15,8 @@ import org.tomass.twitch.twitch.tracker.service.TwitchUserService;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.helix.domain.StreamList;
 
+import jakarta.annotation.PostConstruct;
+
 @Component
 public class TwitchStreamTask {
 
@@ -28,16 +30,19 @@ public class TwitchStreamTask {
     private StreamService twitchStreamService;
 
     @Scheduled(cron = "0 */10 * * * *")
+    @PostConstruct
     public void trackStreams() {
         logger.debug(">> trackStreams");
         List<TwitchUser> users = twitchUserService.listTwitchUser();
         List<String> usersId = new ArrayList<>();
+        int pocetStreamov = 0;
         for (TwitchUser twitchUser : users) {
             usersId.add(twitchUser.getId().toString());
             if (usersId.size() == 100) {
                 StreamList resultList = twitchClient.getHelix()
                         .getStreams(null, null, null, usersId.size(), null, null, usersId, null).execute();
                 twitchStreamService.createStreams(resultList);
+                pocetStreamov = +resultList.getStreams().size();
                 usersId.clear();
             }
         }
@@ -45,7 +50,9 @@ public class TwitchStreamTask {
             StreamList resultList = twitchClient.getHelix()
                     .getStreams(null, null, null, usersId.size(), null, null, usersId, null).execute();
             twitchStreamService.createStreams(resultList);
+            pocetStreamov = +resultList.getStreams().size();
         }
+        logger.info("Pocet online streamov: " + pocetStreamov);
         logger.debug("<< trackStreams");
     }
 }

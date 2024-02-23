@@ -12,6 +12,8 @@ import org.tomass.twitch.model.Stream;
 public class StreamData implements Serializable {
   private static final long serialVersionUID = 1L;
   
+  public static final String ORDER_BY_ID = "ID";
+  
   public static final String ORDER_BY_STREAM = "STREAM";
   
   public StreamData() {
@@ -23,6 +25,21 @@ public class StreamData implements Serializable {
     setTitle(title);
     setViewerCount(viewerCount);
     setTs(ts);
+  }
+  
+  private String id;
+  
+  public String getId() {
+    return this.id;
+  }
+  
+  public void setId(final String id) {
+    this.id = id;
+  }
+  
+  public StreamData withId(final String id) {
+    this.id = id;
+    return this;
   }
   
   private Stream stream;
@@ -116,12 +133,31 @@ public class StreamData implements Serializable {
   }
   
   @Override
+  public boolean equals(final Object obj) {
+    if (this == obj)
+    	return true;
+    if (obj == null)
+    	return false;
+    if (getClass() != obj.getClass())
+    	return false;
+    StreamData other = (StreamData) obj;
+    if (id == null || !id.equals(other.id))
+    	return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return java.util.Objects.hash(id);
+  }
+  
+  @Override
   public String toString() {
-    return "StreamData [gameId=" + gameId + ", gameName=" + gameName + ", title=" + title + ", viewerCount=" + viewerCount + ", ts=" + ts + "]";
+    return "StreamData [id=" + id + ", gameId=" + gameId + ", gameName=" + gameName + ", title=" + title + ", viewerCount=" + viewerCount + ", ts=" + ts + "]";
   }
   
   public String toStringFull() {
-    return "StreamData [stream=" + stream + ", gameId=" + gameId + ", gameName=" + gameName + ", title=" + title + ", viewerCount=" + viewerCount + ", ts=" + ts + "]";
+    return "StreamData [id=" + id + ", stream=" + stream + ", gameId=" + gameId + ", gameName=" + gameName + ", title=" + title + ", viewerCount=" + viewerCount + ", ts=" + ts + "]";
   }
   
   public enum Attribute {
@@ -285,6 +321,8 @@ public class StreamData implements Serializable {
   }
   
   public enum OpAttribute {
+    id,
+    
     stream,
     
     gameId,

@@ -74,13 +74,13 @@ SELECT_CHAT_LOG(QRY,in=ChatLog,out=ChatLog,tab=chat_log)=
 ;
 
 INSERT_STREAM(CRUD,in=Stream,out=Stream,tab=stream)=
-  insert into %%stream (%ID, %USER_ID, %STARTED_AT, %MATURE, %THUMBNAIL_URL)
-  {= values (:id, :userId, :startedAt, :mature, :thumbnailUrl) }
+  insert into %%stream (%ID, %USER_ID, %STARTED_AT, %MATURE, %THUMBNAIL_URL, %END_AT, %AVG_VIEWERS, %TIME_STREAMED, %HOURS_WATCHED)
+  {= values (:id, :userId, :startedAt, :mature, :thumbnailUrl, :endAt, :avgViewers, :timeStreamed, :hoursWatched) }
 ;
 
 GET_STREAM(CRUD,in=Stream,out=Stream,tab=stream=s,tab=stream_data=s1)=
-  select %s.ID @id(id), %s.USER_ID @userId, %s.STARTED_AT @startedAt, %s.MATURE @mature, %s.THUMBNAIL_URL @thumbnailUrl
-         {? :streamDatas(call=toInit) | , %s1.STREAM_ID @streamDatas.stream.id, %s1.GAME_ID @streamDatas.gameId, %s1.GAME_NAME @streamDatas.gameName, %s1.TITLE @streamDatas.title, %s1.VIEWER_COUNT @streamDatas.viewerCount, %s1.TS @streamDatas.ts }
+  select %s.ID @id(id), %s.USER_ID @userId, %s.STARTED_AT @startedAt, %s.MATURE @mature, %s.THUMBNAIL_URL @thumbnailUrl, %s.END_AT @endAt, %s.AVG_VIEWERS @avgViewers, %s.TIME_STREAMED @timeStreamed, %s.HOURS_WATCHED @hoursWatched
+         {? :streamDatas(call=toInit) | , %s1.ID @streamDatas.id(id), %s1.STREAM_ID @streamDatas.stream.id, %s1.GAME_ID @streamDatas.gameId, %s1.GAME_NAME @streamDatas.gameName, %s1.TITLE @streamDatas.title, %s1.VIEWER_COUNT @streamDatas.viewerCount, %s1.TS @streamDatas.ts }
   from %%stream s
   {? :streamDatas(call=toInit) | left join %%stream_data s1 on %s.ID = %s1.STREAM_ID }
   {= where
@@ -89,16 +89,24 @@ GET_STREAM(CRUD,in=Stream,out=Stream,tab=stream=s,tab=stream_data=s1)=
     {& %s.STARTED_AT ::= :startedAt }
     {& %s.MATURE ::= :mature }
     {& %s.THUMBNAIL_URL ::= :thumbnailUrl }
+    {& %s.END_AT ::= :endAt }
+    {& %s.AVG_VIEWERS ::= :avgViewers }
+    {& %s.TIME_STREAMED ::= :timeStreamed }
+    {& %s.HOURS_WATCHED ::= :hoursWatched }
   }
 ;
 
 UPDATE_STREAM(CRUD,in=Stream,out=Stream,tab=stream)=
   update %%stream
   {= set
-    { ,%USER_ID = :userId }
-    { ,%STARTED_AT = :startedAt }
-    { ,%MATURE = :mature }
-    { ,%THUMBNAIL_URL = :thumbnailUrl }
+    { ,%USER_ID = :userId(call=isDef) }
+    { ,%STARTED_AT = :startedAt(call=isDef) }
+    { ,%MATURE = :mature(call=isDef) }
+    { ,%THUMBNAIL_URL = :thumbnailUrl(call=isDef) }
+    { ,%END_AT = :endAt(call=isDef) }
+    { ,%AVG_VIEWERS = :avgViewers(call=isDef) }
+    { ,%TIME_STREAMED = :timeStreamed(call=isDef) }
+    { ,%HOURS_WATCHED = :hoursWatched(call=isDef) }
   }
   {= where
     {& %ID = :id(!empty) }
@@ -113,8 +121,8 @@ DELETE_STREAM(CRUD,in=Stream,out=Stream,tab=stream)=
 ;
 
 SELECT_STREAM(QRY,in=Stream,out=Stream,tab=stream=s,tab=stream_data=s1)=
-  select %s.ID @id(id), %s.USER_ID @userId, %s.STARTED_AT @startedAt, %s.MATURE @mature, %s.THUMBNAIL_URL @thumbnailUrl
-         {? :streamDatas(call=toInit) | , %s1.STREAM_ID @streamDatas.stream.id, %s1.GAME_ID @streamDatas.gameId, %s1.GAME_NAME @streamDatas.gameName, %s1.TITLE @streamDatas.title, %s1.VIEWER_COUNT @streamDatas.viewerCount, %s1.TS @streamDatas.ts }
+  select %s.ID @id(id), %s.USER_ID @userId, %s.STARTED_AT @startedAt, %s.MATURE @mature, %s.THUMBNAIL_URL @thumbnailUrl, %s.END_AT @endAt, %s.AVG_VIEWERS @avgViewers, %s.TIME_STREAMED @timeStreamed, %s.HOURS_WATCHED @hoursWatched
+         {? :streamDatas(call=toInit) | , %s1.ID @streamDatas.id(id), %s1.STREAM_ID @streamDatas.stream.id, %s1.GAME_ID @streamDatas.gameId, %s1.GAME_NAME @streamDatas.gameName, %s1.TITLE @streamDatas.title, %s1.VIEWER_COUNT @streamDatas.viewerCount, %s1.TS @streamDatas.ts }
   from %%stream s
   {? :streamDatas(call=toInit) | left join %%stream_data s1 on %s.ID = %s1.STREAM_ID }
   {= where
@@ -123,21 +131,26 @@ SELECT_STREAM(QRY,in=Stream,out=Stream,tab=stream=s,tab=stream_data=s1)=
     {& %s.STARTED_AT ::= :startedAt }
     {& %s.MATURE ::= :mature }
     {& UPPER(%s.THUMBNAIL_URL) like :+thumbnailUrl }
+    {& %s.END_AT ::= :endAt }
+    {& %s.AVG_VIEWERS ::= :avgViewers }
+    {& %s.TIME_STREAMED ::= :timeStreamed }
+    {& %s.HOURS_WATCHED ::= :hoursWatched }
   }
   {#ID order by %s.ID }
 ;
 
 INSERT_STREAM_DATA(CRUD,in=StreamData,out=StreamData,tab=stream_data)=
-  insert into %%stream_data (%STREAM_ID, %GAME_ID, %GAME_NAME, %TITLE, %VIEWER_COUNT, %TS)
-  {= values (:stream.id, :gameId, :gameName, :title, :viewerCount, :ts) }
+  insert into %%stream_data (%ID, %STREAM_ID, %GAME_ID, %GAME_NAME, %TITLE, %VIEWER_COUNT, %TS)
+  {= values (:id, :stream.id, :gameId, :gameName, :title, :viewerCount, :ts) }
 ;
 
 GET_STREAM_DATA(CRUD,in=StreamData,out=StreamData,tab=stream_data=s,tab=stream=s1)=
-  select %s.STREAM_ID @stream.id(id), %s.GAME_ID @gameId, %s.GAME_NAME @gameName, %s.TITLE @title, %s.VIEWER_COUNT @viewerCount, %s.TS @ts
-         {? :stream(call=toInit) | , %s1.USER_ID @stream.userId, %s1.STARTED_AT @stream.startedAt, %s1.MATURE @stream.mature, %s1.THUMBNAIL_URL @stream.thumbnailUrl }
+  select %s.ID @id(id), %s.STREAM_ID @stream.id(id), %s.GAME_ID @gameId, %s.GAME_NAME @gameName, %s.TITLE @title, %s.VIEWER_COUNT @viewerCount, %s.TS @ts
+         {? :stream(call=toInit) | , %s1.USER_ID @stream.userId, %s1.STARTED_AT @stream.startedAt, %s1.MATURE @stream.mature, %s1.THUMBNAIL_URL @stream.thumbnailUrl, %s1.END_AT @stream.endAt, %s1.AVG_VIEWERS @stream.avgViewers, %s1.TIME_STREAMED @stream.timeStreamed, %s1.HOURS_WATCHED @stream.hoursWatched }
   from %%stream_data s
   {? :stream(call=toInit) | left join %%stream s1 on %s.STREAM_ID = %s1.ID }
   {= where
+    {& %s.ID ::= :id }
     {& %s.STREAM_ID ::= :stream.id }
     {& %s.GAME_ID ::= :gameId }
     {& %s.GAME_NAME ::= :gameName }
@@ -158,21 +171,24 @@ UPDATE_STREAM_DATA(CRUD,in=StreamData,out=StreamData,tab=stream_data)=
     { ,%TS = :ts(call=isDef) }
   }
   {= where
+    {& %ID = :id(!empty) }
   }
 ;
 
 DELETE_STREAM_DATA(CRUD,in=StreamData,out=StreamData,tab=stream_data)=
   delete from %%stream_data
   {= where
+    {& %ID = :id(!empty) }
   }
 ;
 
 SELECT_STREAM_DATA(QRY,in=StreamData,out=StreamData,tab=stream_data=s,tab=stream=s1)=
-  select %s.STREAM_ID @stream.id(id), %s.GAME_ID @gameId, %s.GAME_NAME @gameName, %s.TITLE @title, %s.VIEWER_COUNT @viewerCount, %s.TS @ts
-         {? :stream(call=toInit) | , %s1.USER_ID @stream.userId, %s1.STARTED_AT @stream.startedAt, %s1.MATURE @stream.mature, %s1.THUMBNAIL_URL @stream.thumbnailUrl }
+  select %s.ID @id(id), %s.STREAM_ID @stream.id(id), %s.GAME_ID @gameId, %s.GAME_NAME @gameName, %s.TITLE @title, %s.VIEWER_COUNT @viewerCount, %s.TS @ts
+         {? :stream(call=toInit) | , %s1.USER_ID @stream.userId, %s1.STARTED_AT @stream.startedAt, %s1.MATURE @stream.mature, %s1.THUMBNAIL_URL @stream.thumbnailUrl, %s1.END_AT @stream.endAt, %s1.AVG_VIEWERS @stream.avgViewers, %s1.TIME_STREAMED @stream.timeStreamed, %s1.HOURS_WATCHED @stream.hoursWatched }
   from %%stream_data s
   {? :stream(call=toInit) | left join %%stream s1 on %s.STREAM_ID = %s1.ID }
   {= where
+    {& UPPER(%s.ID) like :+id }
     {& %s.STREAM_ID ::= :stream.id }
     {& %s.GAME_ID ::= :gameId }
     {& UPPER(%s.GAME_NAME) like :+gameName }
@@ -180,16 +196,17 @@ SELECT_STREAM_DATA(QRY,in=StreamData,out=StreamData,tab=stream_data=s,tab=stream
     {& %s.VIEWER_COUNT ::= :viewerCount }
     {& %s.TS ::= :ts }
   }
+  {#ID order by %s.ID }
   {#STREAM order by %s.STREAM_ID }
 ;
 
 INSERT_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
-  insert into %%twitch_user (%ID, %LOGIN, %DISPLAY_NAME, %TYPE, %BROADCASTER_TYPE, %DESCRIPTION, %PROFILE_IMAGE_URL, %OFFLINE_IMAGE_URL, %CREATED_AT, %TS)
-  {= values (:id, :login, :displayName, :type, :broadcasterType, :description, :profileImageUrl, :offlineImageUrl, :createdAt, :ts) }
+  insert into %%twitch_user (%ID, %LOGIN, %DISPLAY_NAME, %TYPE, %BROADCASTER_TYPE, %DESCRIPTION, %PROFILE_IMAGE_URL, %OFFLINE_IMAGE_URL, %CREATED_AT, %TS, %EVENT_ENABLED, %AVG_VIEWERS, %TIME_STREAMED, %HOURS_WATCHED, %AVG_VIEWERS_30, %TIME_STREAMED_30, %HOURS_WATCHED_30)
+  {= values (:id, :login, :displayName, :type, :broadcasterType, :description, :profileImageUrl, :offlineImageUrl, :createdAt, :ts, :eventEnabled, :avgViewers, :timeStreamed, :hoursWatched, :avgViewers30, :timeStreamed30, :hoursWatched30) }
 ;
 
 GET_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
-  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt, %TS @ts
+  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt, %TS @ts, %EVENT_ENABLED @eventEnabled, %AVG_VIEWERS @avgViewers, %TIME_STREAMED @timeStreamed, %HOURS_WATCHED @hoursWatched, %AVG_VIEWERS_30 @avgViewers30, %TIME_STREAMED_30 @timeStreamed30, %HOURS_WATCHED_30 @hoursWatched30
   from %%twitch_user
   {= where
     {& %ID ::= :id }
@@ -202,6 +219,13 @@ GET_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
     {& %OFFLINE_IMAGE_URL ::= :offlineImageUrl }
     {& %CREATED_AT ::= :createdAt }
     {& %TS ::= :ts }
+    {& %EVENT_ENABLED ::= :eventEnabled }
+    {& %AVG_VIEWERS ::= :avgViewers }
+    {& %TIME_STREAMED ::= :timeStreamed }
+    {& %HOURS_WATCHED ::= :hoursWatched }
+    {& %AVG_VIEWERS_30 ::= :avgViewers30 }
+    {& %TIME_STREAMED_30 ::= :timeStreamed30 }
+    {& %HOURS_WATCHED_30 ::= :hoursWatched30 }
   }
 ;
 
@@ -217,6 +241,13 @@ UPDATE_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
     { ,%OFFLINE_IMAGE_URL = :offlineImageUrl(call=isDef) }
     { ,%CREATED_AT = :createdAt(call=isDef) }
     { ,%TS = :ts(call=isDef) }
+    { ,%EVENT_ENABLED = :eventEnabled(call=isDef) }
+    { ,%AVG_VIEWERS = :avgViewers(call=isDef) }
+    { ,%TIME_STREAMED = :timeStreamed(call=isDef) }
+    { ,%HOURS_WATCHED = :hoursWatched(call=isDef) }
+    { ,%AVG_VIEWERS_30 = :avgViewers30(call=isDef) }
+    { ,%TIME_STREAMED_30 = :timeStreamed30(call=isDef) }
+    { ,%HOURS_WATCHED_30 = :hoursWatched30(call=isDef) }
   }
   {= where
     {& %ID = :id(!empty) }
@@ -231,7 +262,7 @@ DELETE_TWITCH_USER(CRUD,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
 ;
 
 SELECT_TWITCH_USER(QRY,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
-  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt, %TS @ts
+  select %ID @id(id), %LOGIN @login, %DISPLAY_NAME @displayName, %TYPE @type, %BROADCASTER_TYPE @broadcasterType, %DESCRIPTION @description, %PROFILE_IMAGE_URL @profileImageUrl, %OFFLINE_IMAGE_URL @offlineImageUrl, %CREATED_AT @createdAt, %TS @ts, %EVENT_ENABLED @eventEnabled, %AVG_VIEWERS @avgViewers, %TIME_STREAMED @timeStreamed, %HOURS_WATCHED @hoursWatched, %AVG_VIEWERS_30 @avgViewers30, %TIME_STREAMED_30 @timeStreamed30, %HOURS_WATCHED_30 @hoursWatched30
   from %%twitch_user
   {= where
     {& %ID ::= :id }
@@ -244,6 +275,13 @@ SELECT_TWITCH_USER(QRY,in=TwitchUser,out=TwitchUser,tab=twitch_user)=
     {& UPPER(%OFFLINE_IMAGE_URL) like :+offlineImageUrl }
     {& %CREATED_AT ::= :createdAt }
     {& %TS ::= :ts }
+    {& %EVENT_ENABLED ::= :eventEnabled }
+    {& %AVG_VIEWERS ::= :avgViewers }
+    {& %TIME_STREAMED ::= :timeStreamed }
+    {& %HOURS_WATCHED ::= :hoursWatched }
+    {& %AVG_VIEWERS_30 ::= :avgViewers30 }
+    {& %TIME_STREAMED_30 ::= :timeStreamed30 }
+    {& %HOURS_WATCHED_30 ::= :hoursWatched30 }
   }
   {#ID order by %ID }
 ;

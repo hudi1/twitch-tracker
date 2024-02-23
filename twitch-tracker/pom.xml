@@ -18,7 +18,7 @@
 		<start-class>org.tomass.twitch.twitch.tracker.TwitchTrackerApplication</start-class>
 
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-		<default.profile>log-con,hikari,forpsi</default.profile>
+		<default.profile>log-con,hikari,home</default.profile>
 		<default.context.path>/twitch-tracker</default.context.path>
 		<docker.image.name>80.211.209.135:30215/twitch-tracker</docker.image.name>
 		<docker.image.tag>latest</docker.image.tag>

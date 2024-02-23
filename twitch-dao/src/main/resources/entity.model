@@ -41,7 +41,7 @@ package org.tomass.twitch.model {
     #Serializable(1)
     #Equals(id)
     #HashCode(id)
-    #ToString(id,userId,startedAt,mature,thumbnailUrl)
+    #ToString(id,userId,startedAt,mature,thumbnailUrl,endAt,avgViewers,timeStreamed,hoursWatched)
     final #Pojo Stream {
         #PrimaryKey
         #Index
@@ -54,14 +54,27 @@ package org.tomass.twitch.model {
         #Attr Boolean mature
         #Required
         #Attr String thumbnailUrl
+        #IsDef
+        #Attr java.time.LocalDateTime endAt
+        #IsDef
+        #Attr Integer avgViewers
+        #IsDef
+        #Attr Integer timeStreamed
+        #IsDef
+        #Attr Integer hoursWatched
         #ToInit
         #Attr java.util.List <StreamData> streamDatas
     }
 
     #Operators
     #Serializable(1)
-    #ToString(gameId,gameName,title,viewerCount,ts)
+    #Equals(id)
+    #HashCode(id)
+    #ToString(id,gameId,gameName,title,viewerCount,ts)
     final #Pojo StreamData {
+        #PrimaryKey
+        #Index
+        #Attr String id
         #ToInit
         #Required
         #Index
@@ -83,7 +96,7 @@ package org.tomass.twitch.model {
     #Serializable(1)
     #Equals(id)
     #HashCode(id)
-    #ToString(id,login,displayName,type,broadcasterType,description,profileImageUrl,offlineImageUrl,createdAt,ts)
+    #ToString(id,login,displayName,type,broadcasterType,description,profileImageUrl,offlineImageUrl,createdAt,ts,eventEnabled,avgViewers,timeStreamed,hoursWatched,avgViewers30,timeStreamed30,hoursWatched30)
     final #Pojo TwitchUser {
         #PrimaryKey
         #Index
@@ -106,5 +119,19 @@ package org.tomass.twitch.model {
         #Attr java.time.LocalDateTime createdAt
         #Required
         #Attr java.time.LocalDateTime ts
+        #IsDef
+        #Attr Boolean eventEnabled
+        #IsDef
+        #Attr Integer avgViewers
+        #IsDef
+        #Attr Integer timeStreamed
+        #IsDef
+        #Attr Integer hoursWatched
+        #IsDef
+        #Attr Integer avgViewers30
+        #IsDef
+        #Attr Integer timeStreamed30
+        #IsDef
+        #Attr Integer hoursWatched30
     }
 }

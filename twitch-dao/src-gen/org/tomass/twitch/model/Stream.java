@@ -101,6 +101,66 @@ public class Stream implements Serializable {
     return this;
   }
   
+  private LocalDateTime endAt;
+  
+  public LocalDateTime getEndAt() {
+    return this.endAt;
+  }
+  
+  public void setEndAt(final LocalDateTime endAt) {
+    this.endAt = endAt;
+  }
+  
+  public Stream withEndAt(final LocalDateTime endAt) {
+    this.endAt = endAt;
+    return this;
+  }
+  
+  private Integer avgViewers;
+  
+  public Integer getAvgViewers() {
+    return this.avgViewers;
+  }
+  
+  public void setAvgViewers(final Integer avgViewers) {
+    this.avgViewers = avgViewers;
+  }
+  
+  public Stream withAvgViewers(final Integer avgViewers) {
+    this.avgViewers = avgViewers;
+    return this;
+  }
+  
+  private Integer timeStreamed;
+  
+  public Integer getTimeStreamed() {
+    return this.timeStreamed;
+  }
+  
+  public void setTimeStreamed(final Integer timeStreamed) {
+    this.timeStreamed = timeStreamed;
+  }
+  
+  public Stream withTimeStreamed(final Integer timeStreamed) {
+    this.timeStreamed = timeStreamed;
+    return this;
+  }
+  
+  private Integer hoursWatched;
+  
+  public Integer getHoursWatched() {
+    return this.hoursWatched;
+  }
+  
+  public void setHoursWatched(final Integer hoursWatched) {
+    this.hoursWatched = hoursWatched;
+  }
+  
+  public Stream withHoursWatched(final Integer hoursWatched) {
+    this.hoursWatched = hoursWatched;
+    return this;
+  }
+  
   private List<StreamData> streamDatas = new java.util.ArrayList<StreamData>();
   
   public List<StreamData> getStreamDatas() {
@@ -137,11 +197,97 @@ public class Stream implements Serializable {
   
   @Override
   public String toString() {
-    return "Stream [id=" + id + ", userId=" + userId + ", startedAt=" + startedAt + ", mature=" + mature + ", thumbnailUrl=" + thumbnailUrl + "]";
+    return "Stream [id=" + id + ", userId=" + userId + ", startedAt=" + startedAt + ", mature=" + mature + ", thumbnailUrl=" + thumbnailUrl + ", endAt=" + endAt + ", avgViewers=" + avgViewers + ", timeStreamed=" + timeStreamed + ", hoursWatched=" + hoursWatched + "]";
   }
   
   public String toStringFull() {
-    return "Stream [id=" + id + ", userId=" + userId + ", startedAt=" + startedAt + ", mature=" + mature + ", thumbnailUrl=" + thumbnailUrl + ", streamDatas=" + streamDatas + "]";
+    return "Stream [id=" + id + ", userId=" + userId + ", startedAt=" + startedAt + ", mature=" + mature + ", thumbnailUrl=" + thumbnailUrl + ", endAt=" + endAt + ", avgViewers=" + avgViewers + ", timeStreamed=" + timeStreamed + ", hoursWatched=" + hoursWatched + ", streamDatas=" + streamDatas + "]";
+  }
+  
+  public enum Attribute {
+    endAt,
+    
+    avgViewers,
+    
+    timeStreamed,
+    
+    hoursWatched;
+  }
+  
+  private Set<String> nullValues_ =  new java.util.HashSet<String>();
+  
+  public void setNull_(final Stream.Attribute... attributes) {
+    if (attributes == null)
+    	throw new IllegalArgumentException();
+    for (Attribute attribute : attributes)
+    	nullValues_.add(attribute.name());
+  }
+  
+  public Stream withNull_(final Stream.Attribute... attributes) {
+    setNull_(attributes);
+    return this;
+  }
+  
+  public void clearNull_(final Stream.Attribute... attributes) {
+    if (attributes == null)
+    	throw new IllegalArgumentException();
+    for (Attribute attribute : attributes)
+    	nullValues_.remove(attribute.name());
+  }
+  
+  public Stream _clearNull_(final Stream.Attribute... attributes) {
+    clearNull_(attributes);
+    return this;
+  }
+  
+  public void setNull_(final String... attributes) {
+    if (attributes == null)
+    	throw new IllegalArgumentException();
+    for (String attribute : attributes)
+    	nullValues_.add(attribute);
+  }
+  
+  public Stream withNull_(final String... attributes) {
+    setNull_(attributes);
+    return this;
+  }
+  
+  public void clearNull_(final String... attributes) {
+    if (attributes == null)
+    	throw new IllegalArgumentException();
+    for (String attribute : attributes)
+    	nullValues_.remove(attribute);
+  }
+  
+  public Stream _clearNull_(final String... attributes) {
+    clearNull_(attributes);
+    return this;
+  }
+  
+  public Boolean isNull_(final Stream.Attribute attribute) {
+    if (attribute == null)
+    	throw new IllegalArgumentException();
+    return nullValues_.contains(attribute.name());
+  }
+  
+  public Boolean isNull_(final String attrName) {
+    if (attrName == null)
+    	throw new IllegalArgumentException();
+    return nullValues_.contains(attrName);
+  }
+  
+  public Boolean isDef_(final String attrName, final Boolean isAttrNotNull) {
+    if (attrName == null)
+    	throw new IllegalArgumentException();
+    if (nullValues_.contains(attrName))
+    	return true;
+    if (isAttrNotNull != null)
+    	return isAttrNotNull;
+    return false;
+  }
+  
+  public void clearAllNull_() {
+    nullValues_ = new java.util.HashSet<String>();
   }
   
   public enum Association {
@@ -232,6 +378,14 @@ public class Stream implements Serializable {
     mature,
     
     thumbnailUrl,
+    
+    endAt,
+    
+    avgViewers,
+    
+    timeStreamed,
+    
+    hoursWatched,
     
     streamDatas;
   }

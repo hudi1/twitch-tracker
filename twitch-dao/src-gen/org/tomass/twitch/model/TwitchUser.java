@@ -174,6 +174,111 @@ public class TwitchUser implements Serializable {
     return this;
   }
   
+  private Boolean eventEnabled;
+  
+  public Boolean getEventEnabled() {
+    return this.eventEnabled;
+  }
+  
+  public void setEventEnabled(final Boolean eventEnabled) {
+    this.eventEnabled = eventEnabled;
+  }
+  
+  public TwitchUser withEventEnabled(final Boolean eventEnabled) {
+    this.eventEnabled = eventEnabled;
+    return this;
+  }
+  
+  private Integer avgViewers;
+  
+  public Integer getAvgViewers() {
+    return this.avgViewers;
+  }
+  
+  public void setAvgViewers(final Integer avgViewers) {
+    this.avgViewers = avgViewers;
+  }
+  
+  public TwitchUser withAvgViewers(final Integer avgViewers) {
+    this.avgViewers = avgViewers;
+    return this;
+  }
+  
+  private Integer timeStreamed;
+  
+  public Integer getTimeStreamed() {
+    return this.timeStreamed;
+  }
+  
+  public void setTimeStreamed(final Integer timeStreamed) {
+    this.timeStreamed = timeStreamed;
+  }
+  
+  public TwitchUser withTimeStreamed(final Integer timeStreamed) {
+    this.timeStreamed = timeStreamed;
+    return this;
+  }
+  
+  private Integer hoursWatched;
+  
+  public Integer getHoursWatched() {
+    return this.hoursWatched;
+  }
+  
+  public void setHoursWatched(final Integer hoursWatched) {
+    this.hoursWatched = hoursWatched;
+  }
+  
+  public TwitchUser withHoursWatched(final Integer hoursWatched) {
+    this.hoursWatched = hoursWatched;
+    return this;
+  }
+  
+  private Integer avgViewers30;
+  
+  public Integer getAvgViewers30() {
+    return this.avgViewers30;
+  }
+  
+  public void setAvgViewers30(final Integer avgViewers30) {
+    this.avgViewers30 = avgViewers30;
+  }
+  
+  public TwitchUser withAvgViewers30(final Integer avgViewers30) {
+    this.avgViewers30 = avgViewers30;
+    return this;
+  }
+  
+  private Integer timeStreamed30;
+  
+  public Integer getTimeStreamed30() {
+    return this.timeStreamed30;
+  }
+  
+  public void setTimeStreamed30(final Integer timeStreamed30) {
+    this.timeStreamed30 = timeStreamed30;
+  }
+  
+  public TwitchUser withTimeStreamed30(final Integer timeStreamed30) {
+    this.timeStreamed30 = timeStreamed30;
+    return this;
+  }
+  
+  private Integer hoursWatched30;
+  
+  public Integer getHoursWatched30() {
+    return this.hoursWatched30;
+  }
+  
+  public void setHoursWatched30(final Integer hoursWatched30) {
+    this.hoursWatched30 = hoursWatched30;
+  }
+  
+  public TwitchUser withHoursWatched30(final Integer hoursWatched30) {
+    this.hoursWatched30 = hoursWatched30;
+    return this;
+  }
+  
   @Override
   public boolean equals(final Object obj) {
     if (this == obj)
@@ -195,11 +300,11 @@ public class TwitchUser implements Serializable {
   
   @Override
   public String toString() {
-    return "TwitchUser [id=" + id + ", login=" + login + ", displayName=" + displayName + ", type=" + type + ", broadcasterType=" + broadcasterType + ", description=" + description + ", profileImageUrl=" + profileImageUrl + ", offlineImageUrl=" + offlineImageUrl + ", createdAt=" + createdAt + ", ts=" + ts + "]";
+    return "TwitchUser [id=" + id + ", login=" + login + ", displayName=" + displayName + ", type=" + type + ", broadcasterType=" + broadcasterType + ", description=" + description + ", profileImageUrl=" + profileImageUrl + ", offlineImageUrl=" + offlineImageUrl + ", createdAt=" + createdAt + ", ts=" + ts + ", eventEnabled=" + eventEnabled + ", avgViewers=" + avgViewers + ", timeStreamed=" + timeStreamed + ", hoursWatched=" + hoursWatched + ", avgViewers30=" + avgViewers30 + ", timeStreamed30=" + timeStreamed30 + ", hoursWatched30=" + hoursWatched30 + "]";
   }
   
   public String toStringFull() {
-    return "TwitchUser [id=" + id + ", login=" + login + ", displayName=" + displayName + ", type=" + type + ", broadcasterType=" + broadcasterType + ", description=" + description + ", profileImageUrl=" + profileImageUrl + ", offlineImageUrl=" + offlineImageUrl + ", createdAt=" + createdAt + ", ts=" + ts + "]";
+    return "TwitchUser [id=" + id + ", login=" + login + ", displayName=" + displayName + ", type=" + type + ", broadcasterType=" + broadcasterType + ", description=" + description + ", profileImageUrl=" + profileImageUrl + ", offlineImageUrl=" + offlineImageUrl + ", createdAt=" + createdAt + ", ts=" + ts + ", eventEnabled=" + eventEnabled + ", avgViewers=" + avgViewers + ", timeStreamed=" + timeStreamed + ", hoursWatched=" + hoursWatched + ", avgViewers30=" + avgViewers30 + ", timeStreamed30=" + timeStreamed30 + ", hoursWatched30=" + hoursWatched30 + "]";
   }
   
   public enum Attribute {
@@ -211,7 +316,21 @@ public class TwitchUser implements Serializable {
     
     profileImageUrl,
     
-    offlineImageUrl;
+    offlineImageUrl,
+    
+    eventEnabled,
+    
+    avgViewers,
+    
+    timeStreamed,
+    
+    hoursWatched,
+    
+    avgViewers30,
+    
+    timeStreamed30,
+    
+    hoursWatched30;
   }
   
   private Set<String> nullValues_ =  new java.util.HashSet<String>();
@@ -309,7 +428,21 @@ public class TwitchUser implements Serializable {
     
     createdAt,
     
-    ts;
+    ts,
+    
+    eventEnabled,
+    
+    avgViewers,
+    
+    timeStreamed,
+    
+    hoursWatched,
+    
+    avgViewers30,
+    
+    timeStreamed30,
+    
+    hoursWatched30;
   }
   
   private Map<String, String> operators_ =  new java.util.HashMap<String, String>();

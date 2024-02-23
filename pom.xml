@@ -20,12 +20,17 @@
 		<version.sqlp-processor>3.1.0</version.sqlp-processor>
 
 		<version.twitch4j>1.19.0</version.twitch4j>
+
+        <wicket.version>10.0.0-M1</wicket.version>
+        <wicket-starter.version>4.0.0-M1</wicket-starter.version>
+        <wicketstuff.version>10.0.0-M1</wicketstuff.version>        
 	</properties>
 
 	<modules>
 		<module>twitch-dao</module>
 		<module>chat-tracker</module>
 		<module>twitch-tracker</module>
+		<module>twitch-tracker-web</module>
 	</modules>
 
 	<build>
