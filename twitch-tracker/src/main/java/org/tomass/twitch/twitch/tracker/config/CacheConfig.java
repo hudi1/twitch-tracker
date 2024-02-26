@@ -10,23 +10,23 @@ import com.github.twitch4j.helix.domain.Stream;
 @Configuration
 public class CacheConfig {
 
-    private Map<Long, Stream> lastStreamByUserId;
+    private Map<Long, Long> lastStreamIdByUserId;
 
     public CacheConfig() {
-        lastStreamByUserId = new ConcurrentHashMap<>();
+        lastStreamIdByUserId = new ConcurrentHashMap<>();
     }
 
-    public Map<Long, Stream> getLastStreamByUserId() {
-        return lastStreamByUserId;
+    public Map<Long, Long> getLastStreamIdByUserId() {
+        return lastStreamIdByUserId;
     }
 
-    public void setLastStreamByUserId(Map<Long, Stream> lastStreamByUserId) {
-        this.lastStreamByUserId = lastStreamByUserId;
+    public void setLastStreamIdByUserId(Map<Long, Long> lastStreamIdByUserId) {
+        this.lastStreamIdByUserId = lastStreamIdByUserId;
     }
 
     @Override
     public String toString() {
-        return "CacheConfig [lastStreamByUserId=" + lastStreamByUserId + "]";
+        return "CacheConfig [lastStreamIdByUserId=" + lastStreamIdByUserId + "]";
     }
 
 }

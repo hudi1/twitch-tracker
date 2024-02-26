@@ -189,17 +189,17 @@ public class TwitchUser implements Serializable {
     return this;
   }
   
-  private Integer avgViewers;
+  private Float avgViewers;
   
-  public Integer getAvgViewers() {
+  public Float getAvgViewers() {
     return this.avgViewers;
   }
   
-  public void setAvgViewers(final Integer avgViewers) {
+  public void setAvgViewers(final Float avgViewers) {
     this.avgViewers = avgViewers;
   }
   
-  public TwitchUser withAvgViewers(final Integer avgViewers) {
+  public TwitchUser withAvgViewers(final Float avgViewers) {
     this.avgViewers = avgViewers;
     return this;
   }
@@ -234,17 +234,17 @@ public class TwitchUser implements Serializable {
     return this;
   }
   
-  private Integer avgViewers30;
+  private Float avgViewers30;
   
-  public Integer getAvgViewers30() {
+  public Float getAvgViewers30() {
     return this.avgViewers30;
   }
   
-  public void setAvgViewers30(final Integer avgViewers30) {
+  public void setAvgViewers30(final Float avgViewers30) {
     this.avgViewers30 = avgViewers30;
   }
   
-  public TwitchUser withAvgViewers30(final Integer avgViewers30) {
+  public TwitchUser withAvgViewers30(final Float avgViewers30) {
     this.avgViewers30 = avgViewers30;
     return this;
   }

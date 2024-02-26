@@ -2,9 +2,9 @@ resolve-pojo-on;
 database-is-online;
 validate-resources - "statements.meta" entity.model dao.model;
 database-jdbc-driver   com.mysql.jdbc.Driver;
-database-has-url   "jdbc:mysql://localhost:3306/twitch?serverTimezone=UTC";
+database-has-url   "jdbc:mysql://80.211.209.135:30950/twitch?serverTimezone=UTC";
 database-login-username   root;
-database-login-password   root;
+database-login-password   test1234;
 database-active-schema twitch;
 
 pojogen-generate-wrappers;

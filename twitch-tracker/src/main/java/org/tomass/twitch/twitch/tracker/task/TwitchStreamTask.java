@@ -15,8 +15,6 @@ import org.tomass.twitch.twitch.tracker.service.TwitchUserService;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.helix.domain.StreamList;
 
-import jakarta.annotation.PostConstruct;
-
 @Component
 public class TwitchStreamTask {
 
@@ -30,7 +28,6 @@ public class TwitchStreamTask {
     private StreamService twitchStreamService;
 
     @Scheduled(cron = "0 */10 * * * *")
-    @PostConstruct
     public void trackStreams() {
         logger.debug(">> trackStreams");
         List<TwitchUser> users = twitchUserService.listTwitchUser();

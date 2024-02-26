@@ -37,6 +37,9 @@ public class ChannelsPage extends BasePage {
                 TwitchUser user = listItem.getModelObject();
                 listItem.add(new Label("order", listItem.getIndex() + 1));
                 listItem.add(new Label("displayName"));
+                listItem.add(new Label("timeStreamed"));
+                listItem.add(new Label("hoursWatched"));
+                listItem.add(new Label("avgViewers"));
                 Link link;
                 listItem.add(link = new Link<Void>("enterUser") {
 

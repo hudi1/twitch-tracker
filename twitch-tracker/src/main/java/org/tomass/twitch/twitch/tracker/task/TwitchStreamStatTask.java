@@ -29,14 +29,17 @@ public class TwitchStreamStatTask {
     @Autowired
     private StreamService twitchStreamService;
 
-    @Scheduled(cron = "* * 0 * * *")
+    // @Scheduled(cron = "* * 0 * * *")
+    // @PostConstruct
+
     @PostConstruct
     public void statStreams() {
         logger.debug(">> statStreams");
         List<TwitchUser> users = twitchUserService.listTwitchUser();
         for (TwitchUser twitchUser : users) {
-            twitchStreamService.getStreamData(twitchUser);
+            twitchStreamService.getStreamData1(twitchUser);
         }
+        System.out.println("end");
 
         logger.debug("<< statStreams");
     }

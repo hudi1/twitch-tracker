@@ -57,7 +57,7 @@ package org.tomass.twitch.model {
         #IsDef
         #Attr java.time.LocalDateTime endAt
         #IsDef
-        #Attr Integer avgViewers
+        #Attr Float avgViewers
         #IsDef
         #Attr Integer timeStreamed
         #IsDef
@@ -122,13 +122,13 @@ package org.tomass.twitch.model {
         #IsDef
         #Attr Boolean eventEnabled
         #IsDef
-        #Attr Integer avgViewers
+        #Attr Float avgViewers
         #IsDef
         #Attr Integer timeStreamed
         #IsDef
         #Attr Integer hoursWatched
         #IsDef
-        #Attr Integer avgViewers30
+        #Attr Float avgViewers30
         #IsDef
         #Attr Integer timeStreamed30
         #IsDef

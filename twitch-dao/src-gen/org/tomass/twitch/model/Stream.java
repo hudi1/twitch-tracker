@@ -116,17 +116,17 @@ public class Stream implements Serializable {
     return this;
   }
   
-  private Integer avgViewers;
+  private Float avgViewers;
   
-  public Integer getAvgViewers() {
+  public Float getAvgViewers() {
     return this.avgViewers;
   }
   
-  public void setAvgViewers(final Integer avgViewers) {
+  public void setAvgViewers(final Float avgViewers) {
     this.avgViewers = avgViewers;
   }
   
-  public Stream withAvgViewers(final Integer avgViewers) {
+  public Stream withAvgViewers(final Float avgViewers) {
     this.avgViewers = avgViewers;
     return this;
   }
